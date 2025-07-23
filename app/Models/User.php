@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'telephone',
+         'profile_photo_path', 
         'emploi_id',
         'grade_id',
         'region_id',

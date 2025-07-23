@@ -51,20 +51,21 @@ class DashboardController extends Controller
         }
 
         // Données pour les employés récents (recent-employees)
-        $recent_employees = User::with(['region', 'emploi.grade'])
+        $recent_employees = User::with(['region', 'emploi.grade','grade'])
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
 
         // Données pour les employés actifs (active-employees)
-        $active_employees = User::with(['region', 'emploi.grade'])
+        $active_employees = User::with(['emploi.grade', 'region', 'grade'])
             ->whereNotNull('emploi_id')
             ->whereNotNull('region_id')
             ->whereNotNull('grade_id')
-
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
+
+
 
         // ➕ Données pour le graphe chartThree (overview, sales, revenue)
         $months = [];

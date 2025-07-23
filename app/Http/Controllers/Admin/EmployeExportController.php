@@ -12,7 +12,9 @@ class EmployeExportController extends Controller
 {
     public function exportAllPdf()
     {
-        $employes = User::with(['region', 'emploi.grade'])->whereNotNull('emploi_id')->get();
+        $employes = User::with(['region', 'emploi.grade'])
+            ->whereNotNull('emploi_id')
+            ->get();
 
         $pdf = Pdf::loadView('admin.employes.export', compact('employes'));
 

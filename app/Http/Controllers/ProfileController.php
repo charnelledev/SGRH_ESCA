@@ -14,28 +14,56 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
+    public function index()
+{
+    $user = auth()->user();
+    return view('profile.index', compact('user'));
+}
+
     public function edit(Request $request): View
     {
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
     }
+//     use Illuminate\Support\Facades\Auth;
+
+// public function edit()
+// {
+//     $user = Auth::user();
+//     return view('profile.edit', compact('user'));
+// }
+
 
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->user()->fill($request->validated());
+ 
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+public function update(Request $request)
+{
+    $user = auth()->user();
 
-        $request->user()->save();
+    $data = $request->validate([
+        'name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+        'telephone' => 'nullable|string|max:20',
+        'profile_photo' => 'nullable|image|max:2048',
+    ]);
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
+        if ($request->hasFile('profile_photo')) {
+    $path = $request->file('profile_photo')->store('profile-photos', 'public');
+    $data['profile_photo_path'] = $path;
+
+}
+
+
+    $user->update($data);
+
+    return redirect()->route('profile.edit')->with('success', 'Profil mis à jour avec succès.');
+}
+
 
     /**
      * Delete the user's account.

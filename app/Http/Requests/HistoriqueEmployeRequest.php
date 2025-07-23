@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class HistoriqueEmployeRequest extends FormRequest
 {
@@ -13,8 +14,14 @@ class HistoriqueEmployeRequest extends FormRequest
 
     public function rules(): array
     {
+        $historiqueId = $this->route('historique_employe'); // utilisé pour l'update
+
         return [
-            'employe_id' => 'required|exists:users,id',
+            'employe_id' => [
+                'required',
+                'exists:users,id',
+                Rule::unique('historique_employes', 'employe_id')->ignore($historiqueId),
+            ],
             'emploi_id' => 'required|exists:emplois,id',
             'date_debut' => 'nullable|date',
             'date_fin' => 'nullable|date|after_or_equal:date_debut',
@@ -24,6 +31,7 @@ class HistoriqueEmployeRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'employe_id.unique' => 'Cet employé a déjà un historique existant.',
             'employe_id.required' => "L'employé est requis.",
             'employe_id.exists' => "L'employé sélectionné n'existe pas.",
             'emploi_id.required' => "L'emploi est requis.",

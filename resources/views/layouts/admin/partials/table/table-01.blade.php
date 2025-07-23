@@ -77,62 +77,62 @@
             </thead>
             <!-- table header end -->
 
-            <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-                @foreach ($recent_employees as $employee)
-                    <tr>
-                        <td class="py-3">
-                            <div class="flex items-center">
-                                <div class="flex items-center gap-3">
-                                    <div>
-                                        <p class="font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                                            {{ $employee->name }}
-                                        </p>
-                                        <span class="text-gray-500 text-theme-xs dark:text-gray-400">
-                                            Ajouté le {{ $employee->created_at->format('d/m/Y') }}
-                                        </span>
-                                    </div>
+            @foreach ($recent_employees as $employee)
+                <tr>
+                    <td class="py-3">
+                        <div class="flex items-center">
+                            <div class="flex items-center gap-3">
+                                <div>
+                                    <p class="font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                                        {{ $employee->name }}
+                                    </p>
+                                    <span class="text-gray-500 text-theme-xs dark:text-gray-400">
+                                        Ajouté le {{ $employee->created_at->format('d/m/Y') }}
+                                    </span>
                                 </div>
                             </div>
-                        </td>
-                        <td class="py-3">
-                            <div class="flex items-center">
-                                <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                                    {{ $employee->region->name ?? 'Non spécifié' }}
-                                </p>
-                            </div>
-                        </td>
-                        <td class="py-3">
-                            <div class="flex items-center">
-                                <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                                    {{ number_format($employee->emploi->salary_min ?? 0, 2) }}
-                                </p>
-                            </div>
-                        </td>
-                        <td class="py-3">
-                            <div class="flex items-center">
-                                <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                                    {{ $employee->emploi->grade->name ?? 'Non spécifié' }}
-                                </p>
-                            </div>
-                        </td>
-                        <td class="py-3">
-                            <div class="flex items-center">
-                                <p
-                                    class="rounded-full px-2 py-0.5 text-theme-xs font-medium
-                                    @if ($employee->status === 'Actif') bg-success-50 text-success-600 dark:bg-success-500/15 dark:text-success-500
-                                    @elseif ($employee->status === 'Inactif')
-                                        bg-error-50 text-error-600 dark:bg-error-500/15 dark:text-error-500
-                                    @elseif ($employee->status === 'En attente')
-                                        bg-warning-50 text-warning-600 dark:bg-warning-500/15 dark:text-orange-400
-                                    @else
-                                        bg-gray-50 text-gray-600 dark:bg-gray-800 dark:text-gray-400 @endif">
-                                    {{ $employee->status ?? 'Inconnu' }}
-                                </p>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
+                        </div>
+                    </td>
+                    <td class="py-3">
+                        <div class="flex items-center">
+                            <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                                {{ $employee->region ? $employee->region->nom : 'Non spécifié' }}
+                            </p>
+                        </div>
+                    </td>
+                    <td class="py-3">
+                        <div class="flex items-center">
+                            <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                                {{ number_format($employee->salary_min ?? 0, 2) }}
+                            </p>
+                        </div>
+                    </td>
+                    <td class="py-3">
+                        <div class="flex items-center">
+                            <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                                {{ $employee->grade ? $employee->grade->nom : 'Non spécifié' }}
+
+                            </p>
+                        </div>
+                    </td>
+                    <td class="py-3">
+                        <div class="flex items-center">
+                            <p
+                                class="rounded-full px-2 py-0.5 text-theme-xs font-medium
+                    @if ($employee->status === 'Actif') bg-success-50 text-success-600 dark:bg-success-500/15 dark:text-success-500
+                    @elseif ($employee->status === 'Inactif')
+                        bg-error-50 text-error-600 dark:bg-error-500/15 dark:text-error-500
+                    @elseif ($employee->status === 'En attente')
+                        bg-warning-50 text-warning-600 dark:bg-warning-500/15 dark:text-orange-400
+                    @else
+                        bg-gray-50 text-gray-600 dark:bg-gray-800 dark:text-gray-400 @endif">
+                                {{ $employee->status ?? 'Inconnu' }}
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+
         </table>
     </div>
 </div>

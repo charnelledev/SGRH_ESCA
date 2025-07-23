@@ -180,7 +180,7 @@
         </button>
         <!-- Dark Mode Toggler -->
 
-        <!-- Notification Menu Area -->
+        {{-- <!-- Notification Menu Area -->
         <div
           class="relative"
           x-data="{ dropdownOpen: false, notifying: true }"
@@ -603,7 +603,7 @@
           <!-- Dropdown End -->
         </div>
         <!-- Notification Menu Area -->
-      </div>
+      </div> --}}
 
       <!-- User Area -->
       <div

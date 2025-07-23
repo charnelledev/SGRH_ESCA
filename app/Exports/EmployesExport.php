@@ -1,32 +1,24 @@
 <?php
+
 namespace App\Exports;
 
 use App\Models\User;
-use Maatwebsite\Excel\Concerns\FromCollection;
+
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class EmployesExport implements FromCollection, WithHeadings
+class EmployesExport implements FromView, WithHeadings
 {
-    public function collection()
+    public function View():View
     {
-        return User::whereNotNull('emploi_id')->get()->map(function ($e) {
-            return [
-                'Nom' => $e->last_name,
-                'Email' => $e->email,
-                'Téléphone' => $e->telephone,
-                'Région' => $e->region->name ?? '',
-                'Emploi' => $e->emploi->titre ?? '',
-                'grade' => $e->grade->nom ?? '',
-            ];
-        });
+        $employes=User::with(['region', 'emploi.grade'])->get();
+        return view('admin/employes/export', compact('employes'));
+           
     }
 
     public function headings(): array
     {
-        return ['Nom', 'Email', 'Téléphone', 'Région', 'Emploi', 'grade'];
+        return ['Nom', 'Email', 'Téléphone', 'Région', 'Emploi', 'Grade'];
     }
 }
-
-
-
-

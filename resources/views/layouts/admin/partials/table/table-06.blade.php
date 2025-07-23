@@ -6,10 +6,8 @@
             </h3>
         </div>
         <div class="flex items-center gap-3">
-            <a
-                href="{{ route('admin.employes.index') }}"
-                class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200"
-            >
+            <a href="{{ route('admin.employes.index') }}"
+                class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
                 Voir tout
             </a>
         </div>
@@ -63,30 +61,33 @@
                                             {{ $employee->name ?? 'Non spécifié' }}
                                         </span>
                                         <span class="block text-gray-500 text-theme-xs dark:text-gray-400">
-                                            {{ $employee->emploi->title ?? 'Non spécifié' }}
+                                            {{ $employee->emploi->titre ?? 'Non spécifié' }}
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         </td>
+
                         <td class="px-5 py-4 sm:px-6">
                             <div class="flex items-center">
                                 <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                                    {{ $employee->emploi && $employee->emploi->grade ? $employee->emploi->grade->name : 'Non spécifié' }}
+                                   {{ $employee->grade ? $employee->grade->nom : 'Non spécifié' }}
                                 </p>
                             </div>
                         </td>
+
                         <td class="px-5 py-4 sm:px-6">
                             <div class="flex items-center">
                                 <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                                    {{ $employee->region ? $employee->region->name : 'Non spécifié' }}
+                                    {{ $employee->region ? $employee->region->nom : 'Non spécifié' }}
                                 </p>
                             </div>
                         </td>
+
                         <td class="px-5 py-4 sm:px-6">
                             <div class="flex items-center">
                                 <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                                    {{ $employee->emploi ? number_format($employee->emploi->salary_min ?? 0, 2) : '0.00' }}
+                                    {{ number_format($employee->salary_min ?? 0, 2) }}
                                 </p>
                             </div>
                         </td>
@@ -101,6 +102,7 @@
                     </tr>
                 @endforelse
             </tbody>
+
         </table>
     </div>
 </div>
