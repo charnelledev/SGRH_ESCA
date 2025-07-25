@@ -294,7 +294,6 @@
           }
       </script>
       <style>
-        
           .partner-logo {
               height: 7rem;
               /* avant : 5rem */
@@ -325,16 +324,17 @@
               /* to be above bg */
           }
 
-@media (prefers-color-scheme: dark) {
-  footer {
-    background-color: #0e081c !important;
-  }
+          @media (prefers-color-scheme: dark) {
+              footer {
+                  background-color: #0e081c !important;
+              }
 
-  footer + div svg polygon,
-  footer ~ div svg polygon {
-    fill: #0e081c !important;
-  }
-}
+              footer+div svg polygon,
+              footer~div svg polygon {
+                  fill: #0e081c !important;
+              }
+          }
+
           /* Carousel infini fluide */
           .partners-carousel {
               overflow: hidden;
@@ -534,67 +534,110 @@
           <div class="animated-bg absolute inset-0 z-[-1]"></div>
 
           <!-- Header/Navbar -->
-          <header class="w-full p-6 flex justify-between items-center shadow-lg bg-white dark:bg-[#1a102f]">
-              <!-- Logo + Titre -->
-              <div class="flex items-center space-x-3 animate-pulse">
-                  <img src="{{ asset('images/WhatsApp.jpg') }}" alt="Logo RH" class="h-10 w-auto" />
-                  <span class="text-2xl font-bold text-purple-700 dark:text-purple-400">SGRH ESCA</span>
+          <header class="fixed top-0 left-0 w-full z-50 bg-white/90 dark:bg-[#1a102f]/90 backdrop-blur-md shadow-md">
+              <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <div class="flex justify-between items-center h-16">
+                      <!-- Logo -->
+                      <div class="flex-shrink-0 flex items-center space-x-2">
+                          <img src="{{ asset('images/WhatsApp.jpg') }}" alt="Logo RH" class="h-10 w-auto">
+                          <span class="text-2xl font-bold text-purple-700 dark:text-purple-300">SGRH ESCA</span>
+                      </div>
+
+                      <!-- Desktop Navigation -->
+                      <nav class="hidden md:flex space-x-6">
+                          <a href="#"
+                              class="text-purple-600 dark:text-pink-300 hover:text-green-500 transition">Accueil</a>
+                          <a href="#features"
+                              class="text-purple-600 dark:text-pink-300 hover:text-green-500 transition">Fonctionnalités</a>
+
+                          @if (Route::has('login'))
+                              @auth
+                                  <a href="{{ url('/admin/dashboard') }}"
+                                      class="text-purple-600 dark:text-pink-300 hover:text-green-500 font-semibold transition">
+                                      Dashboard
+                                  </a>
+                              @else
+                                  <a href="{{ route('login') }}"
+                                      class="text-purple-600 dark:text-pink-300 hover:text-green-500 font-semibold transition">
+                                      Connexion
+                                  </a>
+                              @endauth
+                          @endif
+                      </nav>
+
+                      <!-- Burger Button -->
+                      <div class="md:hidden flex items-center">
+                          <button id="mobile-menu-button"
+                              class="text-purple-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-300">
+                              <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2"
+                                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                  <path id="burger-icon" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M4 6h16M4 12h16M4 18h16" />
+                              </svg>
+                          </button>
+                      </div>
+                  </div>
               </div>
 
-              <!-- Navigation -->
-              <nav class="space-x-6 flex items-center">
+              <!-- Mobile Menu -->
+              <div id="mobile-menu"
+                  class="md:hidden hidden px-4 pb-4 pt-2 bg-white dark:bg-[#1a102f] transition-all duration-300 shadow-md">
                   <a href="#"
-                      class="text-purple-600 dark:text-pink-300 hover:text-green-500 transition">Accueil</a>
+                      class="block py-2 text-purple-600 dark:text-pink-300 hover:text-green-500">Accueil</a>
                   <a href="#features"
-                      class="text-purple-600 dark:text-pink-300 hover:text-green-500 transition">Fonctionnalités</a>
+                      class="block py-2 text-purple-600 dark:text-pink-300 hover:text-green-500">Fonctionnalités</a>
 
                   @if (Route::has('login'))
                       @auth
                           <a href="{{ url('/admin/dashboard') }}"
-                              class="text-purple-600 dark:text-pink-300 hover:text-green-500 transition font-semibold">
+                              class="block py-2 text-purple-600 dark:text-pink-300 hover:text-green-500 font-semibold">
                               Dashboard
                           </a>
                       @else
                           <a href="{{ route('login') }}"
-                              class="text-purple-600 dark:text-pink-300 hover:text-green-500 transition font-semibold">
+                              class="block py-2 text-purple-600 dark:text-pink-300 hover:text-green-500 font-semibold">
                               Connexion
                           </a>
                       @endauth
                   @endif
-              </nav>
+              </div>
           </header>
 
+
           <!-- Hero Section -->
-          <section
-              class="hero-bg-animated min-h-screen flex items-center justify-center flex-col text-center px-4 bg-[#f9f7fc] dark:bg-transparent"
-              id="hero" data-sr>
-              <!-- Titre principal -->
-              <h1
-                  class="text-5xl md:text-6xl font-extrabold mb-4 text-purple-600 dark:text-purple-300 animate-fade-in">
-                  Bienvenue sur le Système de Gestion RH
-              </h1>
+          <!-- 🔄 Contexte animé -->
+          <div id="animated-zone" class="relative z-10 pt-[75px]">
 
-              <!-- Slogan -->
-              <p
-                  class="text-2xl md:text-3xl text-gray-700 dark:text-pink-200 mb-6 max-w-3xl animate-fade-in delay-200 leading-relaxed">
-                  Simplifiez la gestion de vos ressources humaines avec une solution moderne, intuitive et
-                  puissante.<br />
-                  Optimisez le suivi des employés, automatisez les tâches administratives, et gagnez du temps au
-                  quotidien.
-              </p>
+              <section
+                  class="hero-bg-animated min-h-screen flex items-center justify-center flex-col text-center px-4 bg-[#f9f7fc] dark:bg-transparent"
+                  id="hero" data-sr>
+                  <!-- Titre principal -->
+                  <h1
+                      class="text-5xl md:text-6xl font-extrabold mb-4 text-purple-600 dark:text-purple-300 animate-fade-in">
+                      Bienvenue sur le Système de Gestion RH
+                  </h1>
+
+                  <!-- Slogan -->
+                  <p
+                      class="text-2xl md:text-3xl text-gray-700 dark:text-pink-200 mb-6 max-w-3xl animate-fade-in delay-200 leading-relaxed">
+                      Simplifiez la gestion de vos ressources humaines avec une solution moderne, intuitive et
+                      puissante.<br />
+                      Optimisez le suivi des employés, automatisez les tâches administratives, et gagnez du temps au
+                      quotidien.
+                  </p>
 
 
-              <!-- Loader stylisé -->
-              <div class="orbit-loader mt-10 animate-fade-in delay-500">
-                  <div class="orbit-slice"></div>
-                  <div class="orbit-slice"></div>
-                  <div class="orbit-slice"></div>
-                  <div class="orbit-slice"></div>
-                  <div class="orbit-slice"></div>
-                  <div class="orbit-slice"></div>
-              </div>
-          </section>
-      </div>
+                  <!-- Loader stylisé -->
+                  <div class="orbit-loader mt-10 animate-fade-in delay-500">
+                      <div class="orbit-slice"></div>
+                      <div class="orbit-slice"></div>
+                      <div class="orbit-slice"></div>
+                      <div class="orbit-slice"></div>
+                      <div class="orbit-slice"></div>
+                      <div class="orbit-slice"></div>
+                  </div>
+              </section>
+          </div>
 
 
       </div>
@@ -603,10 +646,11 @@
       <!-- Features Section -->
       <!-- Features Section améliorée -->
       <div class="w-full overflow-hidden leading-none">
-    <svg class="w-full h-8" viewBox="0 0 100 10" preserveAspectRatio="none">
-        <polygon fill="#eee" points="0,10 5,0 10,10 15,0 20,10 25,0 30,10 35,0 40,10 45,0 50,10 55,0 60,10 65,0 70,10 75,0 80,10 85,0 90,10 95,0 100,10" />
-    </svg>
-</div>
+          <svg class="w-full h-8" viewBox="0 0 100 10" preserveAspectRatio="none">
+              <polygon fill="#eee"
+                  points="0,10 5,0 10,10 15,0 20,10 25,0 30,10 35,0 40,10 45,0 50,10 55,0 60,10 65,0 70,10 75,0 80,10 85,0 90,10 95,0 100,10" />
+          </svg>
+      </div>
 
       <section id="features"
           class="py-24 px-6 bg-gradient-to-br from-[#f9f7fc] via-[#eae4ff] to-[#f9f7fc] dark:from-[#1a102f] dark:via-[#231736] dark:to-[#1a102f] transition duration-1000 ease-in-out">
@@ -657,10 +701,11 @@
           </div>
       </section>
       <div class="w-full overflow-hidden leading-none rotate-180">
-    <svg class="w-full h-8" viewBox="0 0 100 10" preserveAspectRatio="none">
-        <polygon fill="#eee" points="0,10 5,0 10,10 15,0 20,10 25,0 30,10 35,0 40,10 45,0 50,10 55,0 60,10 65,0 70,10 75,0 80,10 85,0 90,10 95,0 100,10" />
-    </svg>
-</div>
+          <svg class="w-full h-8" viewBox="0 0 100 10" preserveAspectRatio="none">
+              <polygon fill="#eee"
+                  points="0,10 5,0 10,10 15,0 20,10 25,0 30,10 35,0 40,10 45,0 50,10 55,0 60,10 65,0 70,10 75,0 80,10 85,0 90,10 95,0 100,10" />
+          </svg>
+      </div>
 
 
       <!-- Bordure haute SVG style vague -->
@@ -728,21 +773,19 @@
                   stroke-width="5" />
           </svg>
       </div>
-    
+
 
       <!-- Footer -->
-      <footer
-    class="py-10 text-center text-gray-700 dark:text-gray-300"
-    style="
+      <footer class="py-10 text-center text-gray-700 dark:text-gray-300"
+          style="
         background-color: rgb(31, 11, 31);
         color: #fff;
         background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'500\' height=\'60\' viewBox=\'0 0 1000 120\'%3E%3Cg fill=\'none\' stroke=\'%23110011\' stroke-width=\'10\'%3E%3Cpath d=\'M-500 75c0 0 125-30 250-30S0 75 0 75s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30\'/%3E%3C/g%3E%3C/svg%3E');
         background-repeat: repeat;
         background-size: 250px 30px;
-    "
->
-    <p>&copy; 2025 SGRH ESCA - Tous droits réservés</p>
-</footer>
+    ">
+          <p>&copy; 2025 SGRH ESCA - Tous droits réservés</p>
+      </footer>
 
 
       <svg width="0" height="0">
