@@ -3,23 +3,18 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Response;
 
 class IsEmployee
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-    public function handle(Request $request, Closure $next): Response
+    public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role === 'employee') {
+        // Si l'utilisateur est un employé (pas admin)
+        if (Auth::check() && !Auth::user()->is_admin) {
             return $next($request);
         }
-        abort(403, 'Accès refusé');
-    
+
+        // Sinon on le redirige (par exemple vers l'accueil admin)
+        return redirect()->route('admin.dashboard')->with('error', 'Accès non autorisé.');
     }
 }

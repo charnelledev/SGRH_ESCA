@@ -1,6 +1,13 @@
 @extends('employee.layouts.app')
 
 @section('content')
+
+@if(session('success'))
+    <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg">
+        {{ session('success') }}
+    </div>
+@endif
+
     <div class="mb-8">
         <h2 class="text-3xl font-extrabold text-gray-800 dark:text-white">Bienvenue sur votre espace personnel</h2>
         <p class="text-sm text-gray-500 dark:text-gray-300">Vous êtes connecté en tant qu’employé.</p>

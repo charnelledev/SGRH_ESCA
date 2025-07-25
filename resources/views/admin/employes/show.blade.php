@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="flex gap-2">
-   <a href="{{ route('employes.export.all.pdf') }}"
+   <a href="{{ route('admin.employes.export.all.pdf') }}"
        class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
        📄 Export PDF
    </a>
 
-   <a href="{{ route('employes.export.all.excel') }}"
+   <a href="{{ route('admin.employes.export.all.excel') }}"
        class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
        📊 Export Excel
    </a>

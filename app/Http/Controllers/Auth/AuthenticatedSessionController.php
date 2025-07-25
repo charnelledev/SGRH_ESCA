@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Display the login view.
+     * Affiche le formulaire de connexion.
      */
     public function create(): View
     {
@@ -20,20 +20,18 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Handle an incoming authentication request.
+     * Traite la tentative de connexion.
      */
-
-
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string'],
         ]);
 
-        if (! Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+        if (!Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             return back()->withErrors([
-                'email' => __('auth.failed'),
+                'email' => 'Les informations ne correspondent pas.',
             ]);
         }
 
@@ -41,37 +39,27 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::user();
 
-        if ($user->role === 'admin') {
-            return redirect()->route('admin.dashboard');
-        } elseif ($user->role === 'employee') {
-            return redirect()->route('employee.dashboard');
-        }
+        // ✅ Redirection basée sur le champ "role"
+        switch ($user->role) {
+            case 'admin':
+                Session::flash('success', 'Bienvenue dans votre espace administrateur, ' . $user->name . ' !');
+                return redirect()->route('admin.dashboard');
 
-        return redirect()->intended('/');
+            case 'employe':
+            default:
+                Session::flash('success', 'Bienvenue sur votre tableau de bord, ' . $user->name . ' !');
+                return redirect()->route('employee.dashboard');
+        }
     }
 
-    
-
-
-
-    // public function store(LoginRequest $request): RedirectResponse
-    // {
-    //     $request->authenticate();
-
-    //     $request->session()->regenerate();
-
-    //     return redirect()->intended(route('admin.dashboard', absolute: false));
-    // }
-
     /**
-     * Destroy an authenticated session.
+     * Déconnecte l'utilisateur.
      */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');

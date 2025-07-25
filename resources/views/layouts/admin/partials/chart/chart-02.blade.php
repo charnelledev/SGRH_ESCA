@@ -42,13 +42,13 @@
                         Voir la liste
                     </a>
                     <a
-                        href="{{ route('employes.export.all.pdf') }}"
+                        href="{{ route('admin.employes.export.all.pdf') }}"
                         class="flex w-full rounded-lg px-3 py-2 text-left text-theme-xs font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
                     >
                         Exporter en PDF
                     </a>
                     <a
-                        href="{{ route('employes.export.all.excel') }}"
+                        href="{{ route('admin.employes.export.all.excel') }}"
                         class="flex w-full rounded-lg px-3 py-2 text-left text-theme-xs font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
                     >
                         Exporter en Excel
